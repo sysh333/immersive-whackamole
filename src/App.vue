@@ -23,18 +23,18 @@
         <h2>{{ timer }}</h2>
       </div>
     </div>
-    <div class="moles-container">
-      <div class="mole">{{ moles[0] }}</div>
-      <div class="mole">{{ moles[1] }}</div>
-      <div class="mole">{{ moles[2] }}</div>
-      <div class="mole">{{ moles[3] }}</div>
-    </div>
+    <Moles v-bind:moleData="moles" />
   </div>
 </template>
 
 <script>
+import Moles from './components/Moles';
+
 export default {
   name: 'App',
+  components: {
+    Moles: Moles
+  },
   data: () => {
     return {
       score: 0,
