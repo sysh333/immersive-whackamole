@@ -1,15 +1,23 @@
 <template>
   <div class="moles-container">
-    <div 
-      class="mole" v-for="(mole, index) in moleData" v-bind:key="index">
-      <h1>{{mole}}</h1>
-    </div>
+    <Mole 
+      class="mole"
+      v-for="(moleState, idx) in moleData"
+      v-bind:key="idx"
+      v-bind:state="moleState"
+    >
+    </Mole>
   </div>
 </template>
 
 <script>
+import Mole from './Mole';
+
 export default {
   name: 'Moles',
+  components: { 
+    Mole
+  },
   props: ['moleData']
 }
 </script>
