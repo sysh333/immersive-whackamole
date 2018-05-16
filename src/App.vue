@@ -10,30 +10,32 @@
       Start Game
     </button>
     <div class="counters-container">
-      <div class="counter">
-        <h1>Score:</h1>
-        <h2>{{ score }}</h2>
-      </div>
-      <div class="counter">
-        <h1>High Score:</h1>
-        <h2>{{ highScore }}</h2>
-      </div>
-      <div class="counter">
-        <h1>Timer:</h1>
-        <h2>{{ timer }}</h2>
-      </div>
+      <Counter
+        label="Score:"
+        v-bind:value="score"
+      />
+      <Counter
+        label="High Score:"
+        v-bind:value="highScore"
+      />
+      <Counter
+        label="Timer"
+        v-bind:value="timer"
+      />
     </div>
-    <Moles v-bind:moleData="moles" v-on:whacked="handleWhacked" />
+    <Moles v-bind:moleData="moles" v-on:whack="handleWhack" />
   </div>
 </template>
 
 <script>
 import Moles from './components/Moles';
+import Counter from './components/Counter';
 
 export default {
   name: 'App',
   components: {
-    Moles: Moles
+    Moles: Moles,
+    Counter: Counter
   },
   data: () => {
     return {
@@ -47,8 +49,8 @@ export default {
     gameStart: function() {
       console.log('I was clicked!');
     },
-    handleWhacked: function(idx) {
-      console.log('Whacked! App ' + idx);
+    handleWhack: function(moleId) {
+      this.score++;
     }
   }
 }

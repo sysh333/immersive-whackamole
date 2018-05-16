@@ -4,9 +4,9 @@
       class="mole"
       v-for="(moleState, idx) in moleData"
       v-bind:key="idx"
-      v-bind:idx="idx"
-      v-bind:state="moleState"
-      v-on:whacked="handleWhacked"
+      v-bind:moleId="idx"
+      v-bind:active="moleState"
+      v-on:whack="handleWhack"
     >
     </Mole>
   </div>
@@ -18,12 +18,12 @@ import Mole from './Mole';
 export default {
   name: 'Moles',
   components: { 
-    Mole
+    Mole: Mole
   },
   props: ['moleData'],
   methods: {
-    handleWhacked: function(idx) {
-      this.$emit('whacked', idx);
+    handleWhack: function(moleId) {
+      this.$emit('whack', moleId);
     }
   }
 }

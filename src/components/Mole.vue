@@ -1,16 +1,16 @@
 <template>
-  <div class="mole" v-on:click="wacked">
-    {{ state }}
+  <div class="mole" v-on:click="handleWhack">
+    {{ active }}
   </div>
 </template>
 
 <script>
 export default {
   name: 'Mole',
-  props: ['state', 'idx'],
+  props: ['active', 'moleId'],
   methods: {
-    wacked: function() {
-      this.$emit('whacked', this.idx);
+    handleWhack: function() {
+      this.$emit('whack', this.moleId);
     }
   }
 }
