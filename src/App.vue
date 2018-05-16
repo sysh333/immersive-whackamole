@@ -23,7 +23,7 @@
         <h2>{{ timer }}</h2>
       </div>
     </div>
-    <Moles v-bind:moleData="moles" />
+    <Moles v-bind:moleData="moles" v-on:whacked="handleWhacked" />
   </div>
 </template>
 
@@ -46,6 +46,9 @@ export default {
   methods: {
     gameStart: function() {
       console.log('I was clicked!');
+    },
+    handleWhacked: function(idx) {
+      console.log('Whacked! App ' + idx);
     }
   }
 }

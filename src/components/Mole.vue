@@ -1,5 +1,5 @@
 <template>
-  <div class="mole">
+  <div class="mole" v-on:click="wacked">
     {{ state }}
   </div>
 </template>
@@ -7,7 +7,12 @@
 <script>
 export default {
   name: 'Mole',
-  props: ['state']
+  props: ['state', 'idx'],
+  methods: {
+    wacked: function() {
+      this.$emit('whacked', this.idx);
+    }
+  }
 }
 </script>
 
