@@ -3,7 +3,7 @@
     <h1 class="logo">
       Whackamole
     </h1>
-    <button 
+    <button
       class="start-game"
       v-on:click="gameStart"
     >
@@ -47,10 +47,24 @@ export default {
   },
   methods: {
     gameStart: function() {
-      console.log('I was clicked!');
+      this.startTimer();
     },
     handleWhack: function(moleId) {
       this.score++;
+    },
+    startTimer: function() {
+      this.timerId = setInterval(() => {
+        this.decrementTimer();
+      }, 1000);
+    },
+    decrementTimer: function() {
+      this.timer--;
+      if (this.timer === 0) {
+        this.stopTimer();
+      }
+    },
+    stopTimer: function() {
+      clearInterval(this.timerId);
     }
   }
 }
