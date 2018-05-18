@@ -1,5 +1,5 @@
 <template>
-  <div class="mole-container">
+  <div v-bind:class="classObject">
     <div class="mole-image-container">
       <img
         v-on:click="handleClick"
@@ -24,8 +24,17 @@ export default {
     handleClick: function() {
       this.$emit('whack', this.moleId);
     }
+  },
+  computed: {
+    classObject: function() {
+      return {
+        active: this.active,
+        inactive: !this.active,
+        'mole-container': true
+      };
+    }
   }
-}
+};
 </script>
 
 <style>
