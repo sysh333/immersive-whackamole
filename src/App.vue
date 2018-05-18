@@ -23,7 +23,10 @@
         v-bind:value="timer"
       />
     </div>
-    <Moles v-bind:moleData="moles" v-on:whack="handleWhack" />
+    <Moles
+      v-bind:moleData="moles"
+      v-on:whack="handleMoleWhack"
+    />
   </div>
 </template>
 
@@ -49,15 +52,15 @@ export default {
     gameStart: function() {
       this.startTimer();
     },
-    handleWhack: function(moleId) {
+    handleMoleWhack: function(moleId) {
       this.score++;
     },
     startTimer: function() {
       this.timerId = setInterval(() => {
-        this.decrementTimer();
+        this.decrementTime();
       }, 1000);
     },
-    decrementTimer: function() {
+    decrementTime: function() {
       this.timer--;
       if (this.timer === 0) {
         this.stopTimer();
@@ -71,13 +74,35 @@ export default {
 </script>
 
 <style>
-.counter {
-  margin: 10px;
-  display: inline-block;
+.whackamole {
+  font-family: Bungee,cursive;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+  margin-top: 20px;
 }
-
-.mole {
-  margin: 10px;
-  display: inline-block;
+.logo {
+  text-align: center;
+  margin: 30px;
+}
+.start-game {
+    margin: auto;
+    display: block;
+}
+button {
+  font-family: Bungee,cursive;
+  padding: 20px;
+  border-radius: 3px;
+  border: 0;
+  background-color: #52b1d6;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+.counters-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div class="moles-container">
-    <Mole 
-      class="mole"
+    <Mole
       v-for="(moleState, idx) in moleData"
       v-bind:key="idx"
       v-bind:moleId="idx"
@@ -17,7 +16,7 @@ import Mole from './Mole';
 
 export default {
   name: 'Moles',
-  components: { 
+  components: {
     Mole: Mole
   },
   props: ['moleData'],
@@ -30,5 +29,18 @@ export default {
 </script>
 
 <style>
+/**
+ *
+ * Moles
+ */
+.moles-container {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
 
+.moles-container.game-active {
+  opacity: 1;
+}
 </style>
