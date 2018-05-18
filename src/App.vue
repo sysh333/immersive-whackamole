@@ -25,6 +25,7 @@
     </div>
     <Moles
       v-bind:moleData="moles"
+      v-bind:gameActive="gameActive"
       v-on:whack="handleMoleWhack"
     />
   </div>
@@ -45,12 +46,25 @@ export default {
       score: 0,
       highScore: 10,
       timer: 20,
-      moles: [false, false, false, false]
+      moles: [false, false, false, false],
+      gameActive: false
     };
   },
   methods: {
     gameStart: function() {
       this.startTimer();
+      this.score = 0;
+      this.timer = 20;
+      this.moles = [false, false, false, false];
+      this.gameActive = true;
+    },
+    endGame: function() {
+      this.gameActive = false;
+      this.stopTimer();
+      this.updateHighScore();
+    },
+    updateHighScore() {
+      this.highScore = Math.max(this.highScore, this.score);
     },
     handleMoleWhack: function(moleId) {
       this.score++;
@@ -63,7 +77,7 @@ export default {
     decrementTime: function() {
       this.timer--;
       if (this.timer === 0) {
-        this.stopTimer();
+        this.endGame();
       }
     },
     stopTimer: function() {

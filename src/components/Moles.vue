@@ -1,5 +1,5 @@
 <template>
-  <div class="moles-container">
+  <div v-bind:class="classObject">
     <Mole
       v-for="(moleState, idx) in moleData"
       v-bind:key="idx"
@@ -19,10 +19,18 @@ export default {
   components: {
     Mole: Mole
   },
-  props: ['moleData'],
+  props: ['moleData', 'gameActive'],
   methods: {
     handleWhack: function(moleId) {
       this.$emit('whack', moleId);
+    }
+  },
+  computed: {
+    classObject: function () {
+      return {
+        'moles-container': true,
+        'game-active': !!this.gameActive,
+      }
     }
   }
 }
