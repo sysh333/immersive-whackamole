@@ -35,6 +35,9 @@
 import Moles from './components/Moles';
 import Counter from './components/Counter';
 
+const storageKey = 'whackamole.highscore';
+const moleTimers = [0, 0, 0, 0];
+
 export default {
   name: 'App',
   components: {
@@ -44,29 +47,46 @@ export default {
   data: () => {
     return {
       score: 0,
-      highScore: 10,
+      highScore: 0,
       timer: 20,
       moles: [false, false, false, false],
       gameActive: false
     };
   },
+  mounted: function () {
+    this.$nextTick(function () {
+      // ローカルストレージから読み出す
+      const savedValue = localStorage.getItem(storageKey);
+      if (!isNaN(parseInt(savedValue))) {
+        this.highScore = savedValue;
+      }
+    })
+  },
   methods: {
     gameStart: function() {
+      // extra1: 何回も"START GAME"できてしまうバグを直す！
+      if (this.gameActive) return;
       this.startTimer();
       this.score = 0;
       this.timer = 20;
       this.moles = [false, false, false, false];
       this.gameActive = true;
+      this.startMoles();
     },
     endGame: function() {
       this.gameActive = false;
       this.stopTimer();
       this.updateHighScore();
+      this.stopMoles();
     },
-    updateHighScore() {
+    updateHighScore: function() {
       this.highScore = Math.max(this.highScore, this.score);
+      localStorage.setItem(storageKey, this.highScore);
     },
     handleMoleWhack: function(moleId) {
+      if (!this.gameActive) return;
+      clearTimeout(moleTimers[moleId]);
+      this.deactivateMole(moleId, false);
       this.score++;
     },
     startTimer: function() {
@@ -82,6 +102,32 @@ export default {
     },
     stopTimer: function() {
       clearInterval(this.timerId);
+    },
+    startMoles: function() {
+      this.molesTimer = setInterval(this.activateMoleRandomly.bind(this), 500);
+    },
+    stopMoles: function() {
+      clearInterval(this.molesTimer);
+    },
+    activateMoleRandomly: function() {
+      const index = Math.floor(Math.random() * this.moles.length);
+      if (!this.moles[index]) {
+        this.activateMole(index);
+      }
+    },
+    activateMole: function(id) {
+      // 実際にmolesに情報を更新する
+      this.updateMole(id, true);
+      moleTimers[id] = setTimeout(this.deactivateMole.bind(this, id), 2500);
+    },
+    deactivateMole: function(id) {
+      // molesに対して情報を更新する
+      this.updateMole(id, false);
+    },
+    updateMole: function(id, active) {
+      const moles = this.moles.slice(0);
+      moles[id] = active;
+      this.moles = moles;
     }
   }
 }
