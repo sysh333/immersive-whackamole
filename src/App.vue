@@ -3,12 +3,26 @@
     <h1 class="logo">
       Whackamole
     </h1>
-    <button
-      class="start-game"
-      v-on:click="gameStart"
-    >
-      Start Game
-    </button>
+    <div class="buttons-container">
+      <button
+        class="start-game easy-mode"
+        v-on:click="gameStart(0)"
+      >
+        Easy Mode
+      </button>
+      <button
+        class="start-game"
+        v-on:click="gameStart(1)"
+      >
+        Start Game
+      </button>
+      <button
+        class="start-game hard-mode"
+        v-on:click="gameStart(2)"
+      >
+        Hard Mode
+      </button>
+    </div>
     <div class="counters-container">
       <Counter
         label="Score:"
@@ -38,6 +52,12 @@ import Counter from './components/Counter';
 const storageKey = 'whackamole.highscore';
 const moleTimers = [0, 0, 0, 0];
 
+const difficulties = [
+  { id: 'easy', speed: 2000},
+  { id: 'normal', speed: 1000},
+  { id: 'hard', speed: 500}
+];
+
 export default {
   name: 'App',
   components: {
@@ -63,9 +83,10 @@ export default {
     })
   },
   methods: {
-    gameStart: function() {
+    gameStart: function(mode) {
       // extra1: 何回も"START GAME"できてしまうバグを直す！
       if (this.gameActive) return;
+      console.log(mode);
       this.startTimer();
       this.score = 0;
       this.timer = 20;
@@ -80,8 +101,12 @@ export default {
       this.stopMoles();
     },
     updateHighScore: function() {
+      const isNewRecord = this.score > this.highScore;
       this.highScore = Math.max(this.highScore, this.score);
       localStorage.setItem(storageKey, this.highScore);
+      if (isNewRecord) {
+        alert('New Record!!!!!');
+      }
     },
     handleMoleWhack: function(moleId) {
       if (!this.gameActive) return;
@@ -141,6 +166,9 @@ export default {
   margin: auto;
   margin-top: 20px;
 }
+.buttons-container {
+  display: flex;
+}
 .logo {
   text-align: center;
   margin: 30px;
@@ -159,6 +187,12 @@ button {
   font-size: 1em;
   cursor: pointer;
   transition: background-color .2s ease;
+}
+button.easy-mode {
+  background-color: rgb(77, 236, 56);
+}
+button.hard-mode {
+  background-color: red;
 }
 .counters-container {
   display: flex;
