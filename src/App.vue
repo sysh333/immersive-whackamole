@@ -40,7 +40,7 @@ export default {
       score: 0,
       highScore: 10,
       timer: 20,
-      moles: [false, false, false, false]
+      moles: [false, true, false, false]
     };
   },
   methods: {
